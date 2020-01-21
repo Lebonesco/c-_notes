@@ -1,6 +1,8 @@
 #include <array>
 #include <vector>
 #include <stack>
+#include <list>
+#include <unordered_map>
 #include <queue>
 #include <set>
 #include <map>
@@ -13,6 +15,9 @@ void containers()
     // array
     // old way, static allocation
     array<int, 5> numbers = {{1,2,3,4,5}};
+
+    // list, linked list
+    list<int> ll;
 
     // vector 
     // new way, dynamica allocation
@@ -46,6 +51,12 @@ void containers()
     q.back();
     q.pop();
 
+    // double ended queue
+    deque<int> dq;
+
+    // priority queue
+    priority_queue<int> pq;
+
     // maps
     map<string, string> m;
     m.insert(pair<string, string>("key", "value"));
@@ -54,4 +65,10 @@ void containers()
     m.erase("key");
     m.clear();
     (m.find("key") != m.end());
+
+    // map with collisions
+    multimap<string, string>mm;
+
+    // map with quicker insertions
+    unordered_map<string, string>um;
 }

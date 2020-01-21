@@ -105,3 +105,83 @@ Matrix<T>& Matrix<T>::operator=(Matrix&& a) // move assignment
     swap(elem,a.elem);
     return *this;
 }
+
+// interface for all monsters
+class monster {
+public:
+    virtual ~monster();
+
+    // forbid copying, prevents slicing
+    monster(monster const&) = delete;
+    monster& operator=(monster const&) = delete;
+
+    void receive_damage(double damage);
+    void interact_with_chainsaw();
+    std::string name() const;
+
+protected:
+    // allow construction for child classes only
+    monster();
+
+private:
+    virtual void do_receive_damage(double damage) = 0;
+    virtual void do_interact_with_chainsaw() = 0;
+    virtual std::string do_name() const = 0;
+};
+
+// monster subclass
+class hobglobin : public monster
+{
+public:
+    hobglobin();
+    virtual ~hobglobin();
+
+private:
+    void do_receive_damage(double damage) final;
+    void do_interact_with_chainsaw() final;
+    std::string do_name() const final;
+
+    double health_;
+};
+
+monster::monster() {}
+
+monster::~monster() {}
+
+void monster::receive_damage(double damage)
+{
+    do_receive_damage(damage);
+}
+
+void monster::interact_with_chainsaw()
+{
+    do_interact_with_chainsaw();
+}
+
+std::string monster::name() const
+{
+    return do_name();
+}
+
+// override - overrides base method
+// final - forbid child classes
+hobglobin::hobglobin()
+    : health_(100.0) {}
+
+hobglobin::~hobglobin() {}
+
+void hobglobin::do_receive_damage(double damage)
+{
+    health_ -= damage;
+}
+
+void hobglobin::do_interact_with_chainsaw()
+{
+    // do stuff
+}
+
+std::string hobglobin::do_name() const
+{
+    static std::string const name("Furry hobglobin");
+    return name;
+}
